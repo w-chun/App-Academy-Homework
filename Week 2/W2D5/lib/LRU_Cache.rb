@@ -1,4 +1,6 @@
 class LRUCache
+  attr_reader :cache
+  
   def initialize(size)
     @cache = []
     @size = size
@@ -16,7 +18,7 @@ class LRUCache
       @cache << el
     elsif count >= @size
       @cache.shift
-      @cache << el 
+      @cache << el
     else
       @cache << el
     end
