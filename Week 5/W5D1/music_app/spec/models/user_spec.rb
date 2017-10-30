@@ -1,7 +1,8 @@
 require 'rails_helper'
+require 'shoulda/matchers'
 
 RSpec.describe User, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+#   pending "add some examples to (or delete) #{__FILE__}"
 
 
   describe User do
@@ -10,8 +11,20 @@ RSpec.describe User, type: :model do
     end
 
     it { should validate_presence_of(:email) }
+    it 'validates presence of user' do
+     expect(:user).not_to be_valid
+   end
     it { should validate_presence_of(:password_digest) }
     it { should validate_length_of(:password).is_at_least(6) }
+
+    it "creates a password digest when a password is given" do
+      expect(user.password_digest).to_not be_nil
+    end
+
+    it "creates a session token before validation" do
+      user.valid?
+      expect(user.session_token).to_not be_nil
+    end
 
     describe '#is_password?' do
       it "verifies a password is correct" do
@@ -19,7 +32,7 @@ RSpec.describe User, type: :model do
       end
     end
 
-    decribe '#reset_session_token' do
+    describe '#reset_session_token' do
       it "sets a new session token on the user" do
         user.valid?
         old_session_token = user.session_token
@@ -34,5 +47,6 @@ RSpec.describe User, type: :model do
         expect(User.find_by_credentials("w@gmail.com", "password")).to eq(user)
       end
     end
+
   end
-end 
+end
