@@ -9624,10 +9624,10 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Calculator = function (_React$Component) {
   _inherits(Calculator, _React$Component);
 
-  function Calculator(props) {
+  function Calculator() {
     _classCallCheck(this, Calculator);
 
-    var _this = _possibleConstructorReturn(this, (Calculator.__proto__ || Object.getPrototypeOf(Calculator)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (Calculator.__proto__ || Object.getPrototypeOf(Calculator)).call(this));
 
     _this.state = { num1: "", num2: "", result: 0 };
     _this.setNum1 = _this.setNum1.bind(_this);
@@ -9681,6 +9681,12 @@ var Calculator = function (_React$Component) {
       this.setState({ result: result });
     }
   }, {
+    key: "clear",
+    value: function clear(e) {
+      e.preventDefault();
+      this.setState({ num1: "", num2: "", result: 0 });
+    }
+  }, {
     key: "render",
     value: function render() {
       var _state = this.state,
@@ -9696,8 +9702,8 @@ var Calculator = function (_React$Component) {
           null,
           this.state.result
         ),
-        _react2.default.createElement("input", { onChange: this.setNum1, value: num1 }),
-        _react2.default.createElement("input", { onChange: this.setNum2, value: num2 }),
+        _react2.default.createElement("input", { onChange: this.setNum1, value: this.state.num1 }),
+        _react2.default.createElement("input", { onChange: this.setNum2, value: this.state.num2 }),
         _react2.default.createElement(
           "button",
           { onClick: this.clear },
