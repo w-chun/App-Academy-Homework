@@ -34,9 +34,36 @@ class BinarySearchTree
 
     if @root == node
       return @root = nil
+    end
+
+    parent_node = node.parent
+    if !node.left && !node.right
+      parent_node.right = nil if parent_node.value < value
+      parent_node.left = nil if parent_node.value >= value
+    elsif !node.left || !node.right
+      if parent_node.left == node
+        if node.left
+          parent_node.left = node.left
+          node.left.parent = parent_node
+        else
+          parent_node.left = node.right
+          node.right.parent = parent_node
+        end
+      else
+        if node.left
+          parent_node.right = node.left
+          node.left.parent = parent_node
+        else
+          parent_node.right = node.right
+          node.right.parent = parent_node
+        end
+      end
     else
-      node.parent.left = nil if node.parent.left == node
-      node.parent.right = nil if node.parent.right == node
+      max_node = maximum(node.left)
+      max_node.parent.replace_child(max_node.value, max_node.left)
+      max_node.left = node.left
+      max_node.right = node.right
+      node.parent.left = max_node
     end
   end
 
