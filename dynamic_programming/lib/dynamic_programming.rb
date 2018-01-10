@@ -17,7 +17,7 @@ class DynamicProgramming
 
   def blair_nums(n)
     # return n if n < 3
-    # blair_nums(n-1) + blair_nums(n-2) + ((2 * n) - 3)
+    # blair_nums(n-1) + blair_nums(n-2) + ((2 * (n-1)) - 1)
     return @blair_cache[n] if @blair_cache[n]
     val = blair_nums(n-1) + blair_nums(n-2) + ((2 * n) - 3)
     @blair_cache[n] = val
@@ -52,7 +52,13 @@ class DynamicProgramming
   end
 
   def super_frog_hops(n, k)
-  
+    return @super_frog_cache[n] if n < 1
+    @super_frog_cache[n] = []
+    i = k < n ? k : n
+    (1..i).each do |idx|
+      super_frog_hops(n-idx, k).each { |combo| @super_frog_cache[n] << combo + [idx]}
+    end
+    @super_frog_cache[n]
   end
 
   def knapsack(weights, values, capacity)
